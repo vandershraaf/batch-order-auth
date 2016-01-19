@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Batch Order Auth Tool by vandershraaf</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Batch Order Auth Tool</h1>
+        <h2>A tool to run PayPal order authorization in batch</h2>
+        <a href="https://github.com/vandershraaf/batch-order-auth" class="button"><small>View project on</small> GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h3>
+<a id="batch-order-auth-tool" class="anchor" href="#batch-order-auth-tool" aria-hidden="true"><span class="octicon octicon-link"></span></a>Batch Order Auth Tool</h3>
+
+<p>This tool is written mainly to run authorizations on order in batch (although
+you will have option to do so for single authorization). That is, if you have 
+order authorization (the id look something like O-XXXXXXXXXXXXXXXX), run authorization
+on the order so that you can capture it. This tool uses DoAuthorization API
+(<a href="https://developer.paypal.com/docs/classic/api/merchant/DoAuthorization_API_Operation_NVP/">https://developer.paypal.com/docs/classic/api/merchant/DoAuthorization_API_Operation_NVP/</a>).</p>
+
+<p>For more information the order authorization in PayPal, refer here: <a href="https://developer.paypal.com/docs/classic/admin/auth-capture/">https://developer.paypal.com/docs/classic/admin/auth-capture/</a></p>
+
+<p>Download the program from the Tag releases</p>
+
+<h5>
+<a id="section-1" class="anchor" href="#section-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Section 1:</h5>
+
+<h5>
+<a id="before-running-this-tool-pre-requisite" class="anchor" href="#before-running-this-tool-pre-requisite" aria-hidden="true"><span class="octicon octicon-link"></span></a>Before running this tool (Pre-requisite)</h5>
+
+<ol>
+<li>Make sure you have Java installed in your machine. Refer here for more information: <a href="https://java.com/en/download/help/download_options.xml">https://java.com/en/download/help/download_options.xml</a>
+</li>
+<li>Make sure you have included Java in your machine's PATH. If you cannot add it to PATH, reference the directory that includes Java executable when running the tool. You can find more information here: <a href="https://www.java.com/en/download/help/path.xml">https://www.java.com/en/download/help/path.xml</a>
+</li>
+<li>If you want to run authorizations in batch from a file, prepare a comma-delimited file that contains orders and amount that you need to authorize. That is, each row should have the following format: [Order Id],[Amount to authorize]</li>
+</ol>
+
+<p>Refer to "example.csv" file on the required format. </p>
+
+<h5>
+<a id="section-2" class="anchor" href="#section-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>Section 2:</h5>
+
+<h5>
+<a id="during-running-this-tool-how-to-run-this-tool" class="anchor" href="#during-running-this-tool-how-to-run-this-tool" aria-hidden="true"><span class="octicon octicon-link"></span></a>During running this tool (How to run this tool)</h5>
+
+<ol>
+<li>Open up command prompt or terminal in your machine</li>
+<li>Change directory to the directory that contains the JAR file. For example, in Windows, use the following command:</li>
+</ol>
+
+<p>cd C:\YOUR_FOLDER_PATH</p>
+
+<ol>
+<li>Run the following command:</li>
+</ol>
+
+<p>java -jar BatchAuth-1.0-jar-with-dependencies.jar</p>
+
+<ol>
+<li>For the first few prompts, you will be required to enter API credentials of your account, which are API username, API password, and API signature. Refer here for more information on how you can get the API credentials from your account: <a href="https://www.paypal-knowledge.com/infocenter/index?page=content&amp;id=FAQ1454&amp;expand=true&amp;locale=en_US">https://www.paypal-knowledge.com/infocenter/index?page=content&amp;id=FAQ1454&amp;expand=true&amp;locale=en_US</a>
+</li>
+<li>Enter the mode of environment. That is, if you want to run API in sandbox, type in "sandbox" or "Sandbox"</li>
+<li>Select application mode. Enter "1" or "2" or "3" once prompted</li>
+</ol>
+
+<h6>
+<a id="for-single-order-authorization-mode" class="anchor" href="#for-single-order-authorization-mode" aria-hidden="true"><span class="octicon octicon-link"></span></a>For "Single order authorization" mode</h6>
+
+<ol>
+<li>Enter the order id. It should start with 'O-'</li>
+<li>Enter the amount that you want to authorize. Make sure it is in integer or double format</li>
+<li>Enter currency </li>
+<li>If authorization is successful, you will see the [SUCCESS] tag. Otherwise, you will see [FAILURE] tag</li>
+</ol>
+
+<h6>
+<a id="for-multiple-orders-authorization-from-file-mode" class="anchor" href="#for-multiple-orders-authorization-from-file-mode" aria-hidden="true"><span class="octicon octicon-link"></span></a>For "Multiple orders authorization (from file)" mode</h6>
+
+<ol>
+<li>Enter the file name that contains input orders. Refer to Section 1, Step 3 for more info on the file format</li>
+<li>Enter currency</li>
+<li>This tool will read the file and try submitting authorizations one by one. It should show whether an authorization has failed together with error codes and error message</li>
+<li>Once completed, it should prompt how many authorizations failed and successful. Also, it should output 'batch_file_*.log' file containing list of successful or failed authorizations</li>
+</ol>
+
+<h6>
+<a id="for-multiple-orders-authorization-from-api-mode" class="anchor" href="#for-multiple-orders-authorization-from-api-mode" aria-hidden="true"><span class="octicon octicon-link"></span></a>For "Multiple orders authorization (from API)" mode</h6>
+
+<ol>
+<li>Enter start date</li>
+<li>Enter end date</li>
+<li>This mode will search your account for any pending orders and run authorizations on the orders</li>
+<li>Once completed, it should prompt how many authorizations failed and successful. Also, it should output 'batch_file_*.log' file
+containing list of successful or failed authorizations</li>
+</ol>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/vandershraaf/batch-order-auth/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/vandershraaf/batch-order-auth/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/vandershraaf/batch-order-auth"></a> is maintained by <a href="https://github.com/vandershraaf">vandershraaf</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
